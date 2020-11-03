@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ua.lviv.iot</groupId>
-    <artifactId>docker</artifactId>
-    <version>1.0</version>
-    <packaging>war</packaging>
+    <artifactId>clouds</artifactId>
+    <version>2-0</version>
+    <packaging>jar</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -15,22 +15,41 @@
         <version>2.2.7.RELEASE</version>
     </parent>
 
+    <properties>
+        <spring.version>2.2.7.RELEASE</spring.version>
+        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+    </properties>
+
     <dependencies>
+
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <version>${spring.version}</version>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.18</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-gcp-starter</artifactId>
+            <version>1.2.5.RELEASE</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <version>${spring.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-gcp-starter-sql-mysql</artifactId>
+            <version>1.2.5.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>2.3.5.RELEASE</version>
         </dependency>
 
         <dependency>
@@ -41,19 +60,30 @@
         </dependency>
     </dependencies>
 
-
-    <properties>
-        <java.version>1.8</java.version>
-        <spring.version>2.2.7.RELEASE</spring.version>
-    </properties>
-
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.3.5.RELEASE</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>appengine-maven-plugin</artifactId>
+                <version>2.4.0</version>
                 <configuration>
-                    <finalName>ROOT</finalName>
+                    <deploy.version>${project.version}</deploy.version>
+                    <projectId>iot-lviv</projectId>
+                    <deploy.stopPreviousVersion>true</deploy.stopPreviousVersion>
+                    <cloudSdkHome>/Users/admin/Documents/studying/clouds/google-cloud-sdk/</cloudSdkHome>
                 </configuration>
             </plugin>
         </plugins>
